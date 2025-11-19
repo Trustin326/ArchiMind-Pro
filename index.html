@@ -1,0 +1,1089 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>ArchiMind Pro — AI that understands design</title>
+  <meta name="description" content="ArchiMind Pro combines AI design, CAD tools and live demos for elite home architects."/>
+  <style>
+    :root{
+      --ink:#0b1220;
+      --muted:#355a82;
+      --royal:#3a6bdc;
+      --light:#5ec8ff;
+      --gold:#f0b429;
+      --bd:#0b12201a;
+      --card:#ffffff;
+      --darkGrad:
+        radial-gradient(1200px 600px at 20% -10%, #2b1b3a55, transparent 60%),
+        radial-gradient(1200px 600px at 90% -10%, #11335966, transparent 60%),
+        linear-gradient(180deg,#121826,#061017);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+      color:var(--ink);
+      background:#ffffff;
+      -webkit-font-smoothing:antialiased;
+    }
+    .container{max-width:1200px;margin:0 auto;padding:28px}
+    header{
+      border-bottom:1px solid var(--bd);
+      background:#fff;
+      position:sticky;
+      top:0;
+      z-index:50;
+    }
+    nav{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+    }
+    .logo{font-weight:800;font-size:20px;color:#143b66}
+    .logo b{color:var(--royal)}
+    .nav-links{display:flex;gap:10px;flex-wrap:wrap;font-size:14px}
+    .nav-links a{
+      text-decoration:none;
+      color:#163a61;
+      padding:8px 10px;
+      border-radius:999px;
+    }
+    .nav-links a:hover{background:#0b12200d}
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:11px 18px;
+      border-radius:14px;
+      border:1px solid var(--bd);
+      text-decoration:none;
+      font-weight:700;
+      color:#052134;
+      font-size:14px;
+    }
+    .btn.primary{
+      background:linear-gradient(90deg,var(--light),var(--gold));
+      border:none;
+      color:#041321;
+    }
+    .btn.ghost{
+      background:#0b12200d;
+    }
+
+    /* HERO – match the light-blue gradient sample */
+    .hero{
+      padding:46px 0 30px;
+      background:
+        radial-gradient(1000px 500px at 50% -20%, #e6f4ff, transparent 70%),
+        linear-gradient(180deg,#eaf5ff 0%, #ffffff 40%);
+      text-align:center;
+    }
+    .hero h1{
+      font-size:42px;
+      line-height:1.12;
+      margin:0 auto 18px;
+      max-width:20ch;
+      color:#0b2d54;
+    }
+    .hero .sub{
+      color:#325b82;
+      max-width:60ch;
+      margin:0 auto 20px;
+      font-size:16px;
+    }
+    .hero .cta{
+      display:flex;
+      gap:12px;
+      justify-content:center;
+      flex-wrap:wrap;
+      margin-top:12px;
+    }
+    .hero .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:6px 12px;
+      border-radius:999px;
+      border:1px solid var(--bd);
+      background:#ffffffcc;
+      font-size:12px;
+      color:#27527e;
+      margin-bottom:10px;
+    }
+    .hero .imgwrap{
+      display:flex;
+      justify-content:center;
+      margin:20px auto 0;
+    }
+    .hero img{
+      width:min(760px,92%);
+      filter:drop-shadow(0 22px 52px #0a2a5a2a);
+    }
+
+    /* TOOLS – dark gradient section like your purple/blue block */
+    .dark-section{
+      background:var(--darkGrad);
+      color:#e9f2ff;
+    }
+    .dark-section .container{
+      padding-top:48px;
+      padding-bottom:48px;
+    }
+    .dark-section h2{
+      font-size:30px;
+      margin:0 0 8px;
+    }
+    .dark-section .sub{
+      margin:0 0 20px;
+      color:#b8c7dd;
+      max-width:70ch;
+    }
+    .tool-grid{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:16px;
+    }
+    @media (max-width:1000px){
+      .tool-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+    }
+    @media (max-width:700px){
+      .tool-grid{grid-template-columns:1fr}
+    }
+    .tool-card{
+      background:rgba(11,18,32,0.7);
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,0.08);
+      padding:16px 16px 14px;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      box-shadow:0 14px 30px #00000055 inset;
+    }
+    .tool-tagline{
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:0.08em;
+      color:#90a8d0;
+    }
+    .tool-card h3{
+      margin:0;
+      font-size:16px;
+      color:#ffffff;
+    }
+    .tool-card p{
+      margin:0;
+      font-size:13px;
+      color:#c7d6ea;
+    }
+    .tool-meta{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-top:6px;
+      gap:8px;
+      font-size:11px;
+      color:#90a8d0;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:4px;
+      border-radius:999px;
+      padding:4px 8px;
+      border:1px solid rgba(255,255,255,0.18);
+      background:rgba(10,26,56,0.9);
+    }
+    .tool-card button{
+      margin-top:10px;
+      align-self:flex-start;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.22);
+      background:linear-gradient(90deg,#72c8ff,#f0b429);
+      color:#06101f;
+      font-weight:700;
+      font-size:12px;
+      padding:7px 13px;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+    }
+
+    /* Live demos anchor section text */
+    .section{
+      padding:40px 0 50px;
+    }
+    .section h2{
+      font-size:26px;
+      margin:0 0 8px;
+      color:#0b2d54;
+    }
+    .section .sub{
+      margin:0 0 18px;
+      color:#47688d;
+      max-width:65ch;
+      font-size:14px;
+    }
+    .floats{
+      position:relative;
+      margin-top:6px;
+      margin-bottom:12px;
+      height:160px;
+      pointer-events:none;
+    }
+    .float{
+      position:absolute;
+      top:0;
+      animation:float 6s ease-in-out infinite;
+    }
+    .float.f1{left:2%}
+    .float.f2{left:22%;animation-duration:7s}
+    .float.f3{left:44%;animation-duration:5.5s}
+    .float.f4{left:66%;animation-duration:6.5s}
+    .float.f5{left:82%}
+    @keyframes float{
+      0%{transform:translateY(0)}
+      50%{transform:translateY(-12px)}
+      100%{transform:translateY(0)}
+    }
+
+    /* OVERLAY DEMO MODULE (Option C full-screen) */
+    .overlay{
+      position:fixed;
+      inset:0;
+      background:rgba(3,6,17,0.85);
+      backdrop-filter:blur(10px);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      z-index:99;
+    }
+    .overlay.open{display:flex}
+    .demo-shell{
+      background:#050814;
+      border-radius:24px;
+      border:1px solid #2c3b63;
+      max-width:1120px;
+      width:100%;
+      max-height:90vh;
+      display:flex;
+      flex-direction:column;
+      box-shadow:0 30px 80px #000000aa;
+    }
+    .demo-header{
+      padding:16px 20px 12px;
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:10px;
+      border-bottom:1px solid #151c31;
+    }
+    .demo-title-block h2{
+      margin:0;
+      font-size:20px;
+      color:#f9fbff;
+    }
+    .demo-title-block p{
+      margin:4px 0 0;
+      font-size:13px;
+      color:#aebce5;
+    }
+    .demo-meta{
+      text-align:right;
+      font-size:11px;
+      color:#7e8fbe;
+    }
+    .close-btn{
+      border:none;
+      background:transparent;
+      color:#d9e1ff;
+      font-size:20px;
+      cursor:pointer;
+    }
+    .demo-tabs{
+      display:flex;
+      border-bottom:1px solid #151c31;
+      padding:0 20px;
+      gap:4px;
+      background:#050814;
+    }
+    .demo-tab{
+      padding:9px 14px;
+      font-size:12px;
+      color:#8fa0d8;
+      cursor:pointer;
+      border-bottom:2px solid transparent;
+    }
+    .demo-tab.active{
+      color:#ffffff;
+      border-color:#72c8ff;
+    }
+    .demo-body{
+      display:grid;
+      grid-template-columns:260px minmax(0,1fr);
+      gap:0;
+      min-height:360px;
+    }
+    @media (max-width:900px){
+      .demo-body{
+        grid-template-columns:1fr;
+      }
+    }
+    .demo-sidebar{
+      padding:16px 20px;
+      border-right:1px solid #151c31;
+      font-size:13px;
+      color:#b9c7ef;
+      background:#050a19;
+    }
+    @media (max-width:900px){
+      .demo-sidebar{
+        border-right:none;
+        border-bottom:1px solid #151c31;
+      }
+    }
+    .demo-main{
+      padding:16px 20px 20px;
+      background:radial-gradient(900px 600px at 0% 0%, #1b285233, transparent 60%),
+                 radial-gradient(900px 600px at 100% 0%, #244e7b44, transparent 60%),
+                 #050814;
+      color:#dbe6ff;
+      font-size:13px;
+    }
+    .demo-main h4{
+      margin:0 0 8px;
+      font-size:14px;
+      color:#f2f5ff;
+    }
+    .step-list{
+      list-style:none;
+      padding-left:0;
+      margin:0 0 10px;
+    }
+    .step-list li{
+      margin:3px 0;
+    }
+    .step-tag{
+      font-size:10px;
+      text-transform:uppercase;
+      letter-spacing:0.08em;
+      color:#8fa0d8;
+      margin-bottom:6px;
+      display:block;
+    }
+    .input-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin:8px 0 10px;
+    }
+    .input-row input,
+    .input-row select,
+    .input-row textarea{
+      background:#050a19;
+      border-radius:10px;
+      border:1px solid #28345b;
+      color:#dbe6ff;
+      padding:8px 9px;
+      font-size:12px;
+      flex:1 1 120px;
+      min-width:0;
+    }
+    textarea{min-height:70px;resize:vertical}
+    .demo-main button{
+      border-radius:999px;
+      border:none;
+      background:linear-gradient(90deg,#72c8ff,#f0b429);
+      color:#050814;
+      font-weight:700;
+      font-size:12px;
+      padding:7px 13px;
+      cursor:pointer;
+      margin:4px 0 10px;
+    }
+    canvas,
+    .visual-panel{
+      width:100%;
+      min-height:200px;
+      border-radius:16px;
+      border:1px solid #28345b;
+      background:radial-gradient(700px 400px at 0% 0%, #132442, transparent 60%),
+                 radial-gradient(700px 400px at 100% 0%, #253668, transparent 60%),
+                 #050814;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#aebce5;
+      font-size:12px;
+      text-align:left;
+      padding:10px;
+    }
+    .export-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:10px;
+      font-size:12px;
+      color:#aebce5;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .export-row a{
+      text-decoration:none;
+      color:#72c8ff;
+      font-weight:600;
+      font-size:12px;
+    }
+
+    footer{
+      padding:26px 0 40px;
+      font-size:12px;
+      color:#6a7da3;
+      text-align:center;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="container">
+    <nav>
+      <div class="logo">🌈 <b>ArchiMind</b> Pro™</div>
+      <div class="nav-links">
+        <a href="#tools">Tools</a>
+        <a href="#live">Live Demos</a>
+      </div>
+      <div>
+        <a class="btn ghost" href="#live">Try Live Demos</a>
+        <a class="btn primary" href="#tools">✨ Try Full Demo Suite</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <div class="badge">AI Design • Intelligent CAD • Real-time Visualization</div>
+      <h1>Reimagine what a home can be — with AI that understands design.</h1>
+      <p class="sub">
+        A next-gen SaaS platform combining AI architecture design, intelligent CAD tools, and real-time visualization —
+        crafted for premium residential architects.
+      </p>
+      <div class="cta">
+        <a class="btn primary" href="#tools">✨ Browse All Tools</a>
+        <a class="btn ghost" href="#live">▶ Watch 2-min Product Tour</a>
+      </div>
+
+      <div class="imgwrap">
+        <!-- Make sure this file exists: assets/img/hero_trio.png -->
+        <img src="assets/img/hero_trio.png" alt="Pixar-style architect trio hero">
+      </div>
+    </div>
+  </section>
+
+  <!-- TOOLS LIST – 20+ tools with demo buttons -->
+  <section class="dark-section" id="tools">
+    <div class="container">
+      <h2>20+ Built-in AI Architecture & CAD Tools</h2>
+      <p class="sub">
+        Every tool below opens as its own full-screen interactive demo – perfect for sales calls, WarriorPlus,
+        or investor walk-throughs. No login or real project data required.
+      </p>
+
+      <div class="tool-grid" id="toolGrid">
+        <!-- JS will inject all tool cards -->
+      </div>
+    </div>
+  </section>
+
+  <!-- LIVE DEMOS ANCHOR -->
+  <section class="container section" id="live">
+    <h2>Live Demos</h2>
+    <p class="sub">
+      Pick any tool above and tap “Try Demo” — it will open as a full-screen module with Overview, Inputs,
+      Visual preview, and Export options. Everything runs locally in the browser.
+    </p>
+    <div class="floats" aria-hidden="true">
+      <!-- These images are optional; page still works if they are missing -->
+      <img class="float f1" src="assets/img/floating_1.png" height="160" alt="">
+      <img class="float f2" src="assets/img/floating_2.png" height="160" alt="">
+      <img class="float f3" src="assets/img/floating_3.png" height="160" alt="">
+      <img class="float f4" src="assets/img/floating_4.png" height="160" alt="">
+      <img class="float f5" src="assets/img/floating_5.png" height="160" alt="">
+    </div>
+  </section>
+</main>
+
+<footer>
+  © <span id="year"></span> ArchiMind Pro™ • Example demos only — no real projects are stored
+</footer>
+
+<!-- FULL-SCREEN DEMO OVERLAY -->
+<div class="overlay" id="demoOverlay" aria-hidden="true">
+  <div class="demo-shell" role="dialog" aria-modal="true" aria-labelledby="demoTitle">
+    <div class="demo-header">
+      <div class="demo-title-block">
+        <h2 id="demoTitle">Demo</h2>
+        <p id="demoTagline"></p>
+      </div>
+      <div class="demo-meta">
+        <div id="demoBadge"></div>
+        <div id="demoHint">Tab through Overview → Inputs → Visual → Export</div>
+      </div>
+      <button class="close-btn" id="closeDemo" aria-label="Close demo">×</button>
+    </div>
+
+    <div class="demo-tabs">
+      <div class="demo-tab active" data-tab="overview">Overview</div>
+      <div class="demo-tab" data-tab="inputs">Inputs</div>
+      <div class="demo-tab" data-tab="visual">Visual</div>
+      <div class="demo-tab" data-tab="export">Export</div>
+    </div>
+
+    <div class="demo-body">
+      <aside class="demo-sidebar" id="demoSidebar">
+        <!-- Steps & notes injected via JS -->
+      </aside>
+      <section class="demo-main" id="demoMain">
+        <!-- Main panel content injected via JS -->
+      </section>
+    </div>
+  </div>
+</div>
+
+<script>
+  // --- Utility ---
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  // --- TOOL DEFINITIONS (20+ tools) ---
+  const tools = [
+    { id:"concept", name:"AI Concept Generator", tagline:"Turn text prompts into high-end design directions.", category:"Concept", tier:"Core", mode:"sketch" },
+    { id:"floorplan", name:"Smart Floor Plan Creator", tagline:"From napkin sketch to editable CAD-like layout.", category:"Floor Plans", tier:"Core", mode:"sketch" },
+    { id:"material", name:"Material Optimizer", tagline:"Swap in eco-friendly, budget-aware material sets.", category:"Materials", tier:"Core", mode:"material" },
+    { id:"elevation", name:"AI Elevation Artist", tagline:"Generate cinematic exteriors in seconds.", category:"Visuals", tier:"Plus", mode:"sketch" },
+    { id:"render", name:"Real-time Rendering Engine", tagline:"Orbit, light, and snapshot your 3D massing.", category:"Visuals", tier:"Plus", mode:"visual" },
+    { id:"site-analysis", name:"Site Analysis Assistant", tagline:"Sun path, views, zoning hints in one panel.", category:"Site", tier:"Plus", mode:"summary" },
+    { id:"energy", name:"Energy Efficiency Modeler", tagline:"Simulated performance for envelopes & glazing.", category:"Sustainability", tier:"Plus", mode:"chart" },
+    { id:"climate", name:"Wind & Climate Mapper", tagline:"Overlay climate data on your massing diagram.", category:"Sustainability", tier:"Plus", mode:"chart" },
+    { id:"staging", name:"AI Staging & Interiors", tagline:"Stage rooms for luxury listings in seconds.", category:"Interiors", tier:"Premium", mode:"visual" },
+    { id:"sunpath", name:"Sun Path Visualizer", tagline:"See shadows sweep across your site by hour.", category:"Site", tier:"Plus", mode:"visual" },
+    { id:"structural", name:"Structural Load Estimator", tagline:"High-level massing load checks (visual only).", category:"Engineering", tier:"Premium", mode:"chart" },
+    { id:"cost", name:"Cost & Bid Estimator", tagline:"Rough order-of-magnitude and bid snapshots.", category:"Business", tier:"Premium", mode:"summary" },
+    { id:"zoning", name:"Zoning & Setback Wizard", tagline:"Visually test envelopes against constraints.", category:"Compliance", tier:"Plus", mode:"summary" },
+    { id:"permit", name:"Permit & Code Checker", tagline:"Flag potential issues before submission.", category:"Compliance", tier:"Premium", mode:"summary" },
+    { id:"presentation", name:"Client Presentation Builder", tagline:"Slide stacks from your latest iterations.", category:"Business", tier:"Premium", mode:"summary" },
+    { id:"history", name:"Revision History Explorer", tagline:"Show clients how the design evolved.", category:"Collaboration", tier:"Core", mode:"summary" },
+    { id:"comments", name:"Client Comment Timeline", tagline:"Track annotated feedback across views.", category:"Collaboration", tier:"Core", mode:"summary" },
+    { id:"bim-helper", name:"BIM / IFC Export Helper", tagline:"Prepare models for downstream tools.", category:"Dev", tier:"Premium", mode:"export" },
+    { id:"portfolio", name:"Portfolio Snapshot Maker", tagline:"Export hero shots for your website.", category:"Marketing", tier:"Core", mode:"visual" },
+    { id:"collab-cloud", name:"Collaborative Design Cloud", tagline:"Simulate real-time edits from multiple architects.", category:"Collaboration", tier:"Flagship", mode:"collab" },
+    { id:"white-label", name:"White-Label Portal Skin", tagline:"Preview client-branded versions of the app.", category:"Branding", tier:"Premium", mode:"visual" }
+  ];
+
+  // --- Render tool cards ---
+  const toolGrid = document.getElementById("toolGrid");
+  tools.forEach(tool => {
+    const card = document.createElement("article");
+    card.className = "tool-card";
+    card.innerHTML = `
+      <div class="tool-tagline">${tool.category}</div>
+      <h3>${tool.name}</h3>
+      <p>${tool.tagline}</p>
+      <div class="tool-meta">
+        <span class="pill">Tier: ${tool.tier}</span>
+        <span>Mode: ${tool.mode.toUpperCase()}</span>
+      </div>
+      <button type="button" data-tool="${tool.id}">
+        ▶ Try Demo
+      </button>
+    `;
+    toolGrid.appendChild(card);
+  });
+
+  // --- Demo overlay logic ---
+  const overlay = document.getElementById("demoOverlay");
+  const closeBtn = document.getElementById("closeDemo");
+  const demoTitle = document.getElementById("demoTitle");
+  const demoTagline = document.getElementById("demoTagline");
+  const demoBadge = document.getElementById("demoBadge");
+  const demoSidebar = document.getElementById("demoSidebar");
+  const demoMain = document.getElementById("demoMain");
+  const tabEls = Array.from(document.querySelectorAll(".demo-tab"));
+
+  let currentTool = null;
+  let currentTab = "overview";
+
+  function openDemo(toolId){
+    const tool = tools.find(t => t.id === toolId);
+    if(!tool) return;
+
+    currentTool = tool;
+    currentTab = "overview";
+
+    demoTitle.textContent = tool.name;
+    demoTagline.textContent = tool.tagline;
+    demoBadge.textContent = `${tool.category} • ${tool.tier} • Demo Mode: ${tool.mode.toUpperCase()}`;
+
+    // reset tabs
+    tabEls.forEach(t => t.classList.toggle("active", t.dataset.tab === "overview"));
+
+    renderTab();
+
+    overlay.classList.add("open");
+    overlay.setAttribute("aria-hidden","false");
+  }
+
+  function closeDemo(){
+    overlay.classList.remove("open");
+    overlay.setAttribute("aria-hidden","true");
+    currentTool = null;
+  }
+
+  // Attach click handlers for all demo buttons
+  toolGrid.addEventListener("click", e => {
+    const btn = e.target.closest("button[data-tool]");
+    if(!btn) return;
+    openDemo(btn.dataset.tool);
+  });
+
+  closeBtn.addEventListener("click", closeDemo);
+  overlay.addEventListener("click", e => {
+    if(e.target === overlay) closeDemo();
+  });
+  document.addEventListener("keydown", e => {
+    if(e.key === "Escape" && overlay.classList.contains("open")) closeDemo();
+  });
+
+  // Tab switching
+  tabEls.forEach(tab => {
+    tab.addEventListener("click", () => {
+      if(!currentTool) return;
+      currentTab = tab.dataset.tab;
+      tabEls.forEach(t => t.classList.toggle("active", t === tab));
+      renderTab();
+    });
+  });
+
+  // --- Demo tab renderers ---
+  function renderTab(){
+    if(!currentTool) return;
+    const t = currentTool;
+
+    // Sidebar (steps) – changes slightly per tool type
+    const steps = getStepsForTool(t);
+    demoSidebar.innerHTML = `
+      <span class="step-tag">Multi-step flow</span>
+      <ol class="step-list">
+        ${steps.map(s => `<li>• ${s}</li>`).join("")}
+      </ol>
+      <hr style="border:none;border-top:1px solid #151c31;margin:10px 0;">
+      <div style="font-size:12px;color:#8996c3;">
+        These demos are simulations only — perfect for sales walkthroughs, investor decks, and WarriorPlus previews.
+      </div>
+    `;
+
+    if(currentTab === "overview"){
+      demoMain.innerHTML = `
+        <h4>Overview</h4>
+        <p>${overviewCopy(t)}</p>
+        <ul class="step-list">
+          <li>• Show how ${t.name} fits into the overall ArchiMind Pro workflow.</li>
+          <li>• Highlight speed, quality and the “wow” moment for the client.</li>
+          <li>• Use the other tabs (Inputs, Visual, Export) live on calls.</li>
+        </ul>
+        <div class="visual-panel">
+          <div>
+            <div style="font-weight:600;margin-bottom:4px;">Sales Tip</div>
+            <div>Ask: “What part of your workflow does this replace?” then configure the Inputs tab to match their latest project.</div>
+          </div>
+        </div>
+      `;
+    } else if(currentTab === "inputs"){
+      renderInputsTab(t);
+    } else if(currentTab === "visual"){
+      renderVisualTab(t);
+    } else if(currentTab === "export"){
+      renderExportTab(t);
+    }
+  }
+
+  function getStepsForTool(t){
+    // Simple variations per mode
+    if(t.mode === "sketch"){
+      return [
+        "Paste a design brief or choose a sample prompt.",
+        "Adjust constraints (site, levels, style).",
+        "Generate concept massing & review variants.",
+        "Lock a favorite and send to visualization."
+      ];
+    }
+    if(t.mode === "material"){
+      return [
+        "Select base system (concrete, timber, steel).",
+        "Choose optimization goal (eco, budget, premium).",
+        "Review AI-suggested assemblies and scores.",
+        "Export recommendations to your notes or client deck."
+      ];
+    }
+    if(t.mode === "collab"){
+      return [
+        "Invite teammates into the session (simulated).",
+        "Watch edits stream into the activity feed.",
+        "Resolve comments and pin a version.",
+        "Export a snapshot of decisions to send to clients."
+      ];
+    }
+    if(t.mode === "chart"){
+      return [
+        "Enter basic building parameters.",
+        "Run a quick performance sweep.",
+        "Compare scenarios side-by-side.",
+        "Save the best scenario for later refinement."
+      ];
+    }
+    if(t.mode === "export"){
+      return [
+        "Select target platform / deliverable.",
+        "Preview what is included in the export.",
+        "Run a consistency check on metadata.",
+        "Download the export bundle."
+      ];
+    }
+    // summary / visual default
+    return [
+      "Summarize the current model or view.",
+      "Highlight key deltas since the last review.",
+      "Capture screenshots or visual notes.",
+      "Send to client or internal channel."
+    ];
+  }
+
+  function overviewCopy(t){
+    switch(t.mode){
+      case "sketch":
+        return `${t.name} takes a simple text brief or rough sketch and turns it into structured spatial ideas. It’s perfect for first-call concept work and client “wow” moments.`;
+      case "material":
+        return `${t.name} compares material stacks across sustainability, budget, and aesthetic goals — then proposes clear swaps your clients can understand.`;
+      case "collab":
+        return `${t.name} simulates multiple architects working on the same model. Use it to show how your studio collaborates in real time across locations.`;
+      case "chart":
+        return `${t.name} gives visually rich, high-level performance charts that are great for early-stage trade-offs without going deep into engineering software.`;
+      case "export":
+        return `${t.name} helps you rehearse the export story: what leaves ArchiMind Pro, where it goes next, and how your client can keep working with the data.`;
+      default:
+        return `${t.name} is a presentation-ready view that surfaces just enough detail to impress clients without overwhelming them with raw model complexity.`;
+    }
+  }
+
+  function renderInputsTab(t){
+    if(t.mode === "sketch"){
+      demoMain.innerHTML = `
+        <h4>Inputs</h4>
+        <span class="step-tag">Brief & constraints</span>
+        <p>Paste a high-level brief, tweak a few constraints, and generate a concept massing instantly.</p>
+        <div class="input-row">
+          <textarea id="briefInput" placeholder="e.g. 3-bedroom hillside home with floor-to-ceiling glazing, oriented to sunset views..."></textarea>
+        </div>
+        <div class="input-row">
+          <select id="styleInput">
+            <option>Style: Modern minimal</option>
+            <option>Style: Warm Scandinavian</option>
+            <option>Style: Coastal craftsman</option>
+            <option>Style: Urban industrial loft</option>
+          </select>
+          <select id="levelInput">
+            <option>Levels: 1</option>
+            <option selected>Levels: 2</option>
+            <option>Levels: 3</option>
+          </select>
+        </div>
+        <button type="button" id="runConcept">Generate concept massing</button>
+        <div class="visual-panel" id="conceptResult">
+          Paste a brief, adjust options, and click “Generate concept massing” to see a simulated layout summary.
+        </div>
+      `;
+      document.getElementById("runConcept").onclick = () => {
+        const brief = (document.getElementById("briefInput").value || "3-bedroom hillside home").trim();
+        const style = document.getElementById("styleInput").value.replace("Style: ","");
+        const levels = document.getElementById("levelInput").value.replace("Levels: ","");
+        document.getElementById("conceptResult").innerHTML = `
+          <div>
+            <strong>Concept summary</strong><br>
+            • Brief: ${brief}<br>
+            • Style: ${style}<br>
+            • Levels: ${levels}<br><br>
+            The AI massing engine would generate 3–5 variants, each optimized for views, privacy and circulation.
+            Use the Visual tab to illustrate the idea on canvas.
+          </div>
+        `;
+      };
+    } else if(t.mode === "material"){
+      demoMain.innerHTML = `
+        <h4>Inputs</h4>
+        <span class="step-tag">Base system & goals</span>
+        <p>Pick a base system and optimization goal. The engine responds with visual scores and suggestions.</p>
+        <div class="input-row">
+          <select id="baseMat">
+            <option>Base: Concrete frame</option>
+            <option>Base: Timber hybrid</option>
+            <option>Base: Steel frame</option>
+            <option>Base: Masonry + slab</option>
+          </select>
+          <select id="goalMat">
+            <option value="eco">Goal: Eco-friendly</option>
+            <option value="budget">Goal: Budget-optimized</option>
+            <option value="premium">Goal: Premium finish</option>
+          </select>
+        </div>
+        <button type="button" id="runMat">Score material stacks</button>
+        <div class="visual-panel" id="matResult">
+          Choose a base and goal, then score an example material stack for your client.
+        </div>
+      `;
+      document.getElementById("runMat").onclick = () => {
+        const base = document.getElementById("baseMat").value;
+        const goal = document.getElementById("goalMat").value;
+        const eco = 60 + Math.floor(Math.random()*40);
+        const cost = 60 + Math.floor(Math.random()*40);
+        const txtGoal = goal === "eco" ? "Lower embodied carbon"
+                      : goal === "budget" ? "Lower upfront cost"
+                      : "Higher perceived quality";
+
+        document.getElementById("matResult").innerHTML = `
+          <strong>Scored stack</strong><br>
+          • ${base}<br>
+          • Goal: ${txtGoal}<br><br>
+          Eco score: ${eco}/100<br>
+          Cost score: ${cost}/100<br><br>
+          Use these numbers as talking points — the production system would read real assemblies from your library.
+        `;
+      };
+    } else if(t.mode === "collab"){
+      demoMain.innerHTML = `
+        <h4>Inputs</h4>
+        <span class="step-tag">Session setup</span>
+        <p>Simulate a live multi-user design session. Great for showing remote collaboration.</p>
+        <div class="input-row">
+          <input id="userA" placeholder="Architect A (e.g., Maya)">
+          <input id="userB" placeholder="Architect B (e.g., Luca)">
+          <input id="userC" placeholder="Client (optional)">
+        </div>
+        <button type="button" id="runCollabInputs">Start simulated session</button>
+        <div class="visual-panel" id="collabInputsResult">
+          Enter participant names and click “Start simulated session” to see activity stream on the Visual tab.
+        </div>
+      `;
+      document.getElementById("runCollabInputs").onclick = () => {
+        const A = (document.getElementById("userA").value || "Maya").trim();
+        const B = (document.getElementById("userB").value || "Luca").trim();
+        const C = (document.getElementById("userC").value || "Client").trim();
+        document.getElementById("collabInputsResult").innerHTML = `
+          <strong>Session configured</strong><br>
+          • ${A} (Lead architect)<br>
+          • ${B} (Project architect)<br>
+          • ${C} (Stakeholder)<br><br>
+          Jump to the Visual tab to watch a simulated stream of edits.
+        `;
+      };
+    } else {
+      // generic inputs tab
+      demoMain.innerHTML = `
+        <h4>Inputs</h4>
+        <span class="step-tag">Configuration</span>
+        <p>Use this tab to “fake” real inputs on sales calls. Nothing is stored — it just gives you a visual script.</p>
+        <div class="input-row">
+          <input placeholder="Project name (e.g., Hillside Residence)">
+          <select>
+            <option>Phase: Concept design</option>
+            <option>Phase: Schematic design</option>
+            <option>Phase: Design development</option>
+          </select>
+        </div>
+        <div class="input-row">
+          <textarea placeholder="Key constraints, client preferences, notes..."></textarea>
+        </div>
+        <div class="visual-panel">
+          You might say: “Here’s how we would configure ${currentTool.name} for your latest project, without touching your real files.” 
+        </div>
+      `;
+    }
+  }
+
+  function renderVisualTab(t){
+    // For sketch-like tools, use a canvas preview “3D massing” style
+    if(t.mode === "sketch"){
+      demoMain.innerHTML = `
+        <h4>Visual</h4>
+        <span class="step-tag">Simulated 3D massing</span>
+        <p>This canvas mimics a live massing window — great for sharing screens on Zoom.</p>
+        <canvas id="massingCanvas" width="640" height="260"></canvas>
+      `;
+      const canvas = document.getElementById("massingCanvas");
+      const ctx = canvas.getContext("2d");
+      const w = canvas.width, h = canvas.height;
+      // background
+      const grad = ctx.createLinearGradient(0,0,w,h);
+      grad.addColorStop(0,"#0b172a");
+      grad.addColorStop(1,"#122545");
+      ctx.fillStyle = grad;
+      ctx.fillRect(0,0,w,h);
+
+      // fake ground plane
+      ctx.fillStyle="#101b35";
+      ctx.fillRect(0,h-50,w,50);
+
+      // draw some blocks
+      const blocks = 6;
+      for(let i=0;i<blocks;i++){
+        const bw = 40+Math.random()*40;
+        const bh = 90+Math.random()*80;
+        const x = 20 + i*(w-80)/blocks + Math.random()*8;
+        const y = h-50-bh;
+        ctx.fillStyle = `rgba(115,183,255,${0.4+Math.random()*0.4})`;
+        ctx.fillRect(x,y,bw,bh);
+        ctx.strokeStyle="rgba(240,180,41,0.6)";
+        ctx.strokeRect(x,y,bw,bh);
+      }
+
+      ctx.fillStyle="#e5f0ff";
+      ctx.font="13px system-ui";
+      ctx.fillText(t.name + " — demo massing", 16, 22);
+      ctx.fillStyle="#9fb4e5";
+      ctx.font="11px system-ui";
+      ctx.fillText("Orbit, adjust levels, and sync to client decks in the production app.", 16, 40);
+    } else if(t.mode === "chart"){
+      demoMain.innerHTML = `
+        <h4>Visual</h4>
+        <span class="step-tag">Performance chart</span>
+        <p>Show a simple chart with fake but believable scores — perfect for storytelling.</p>
+        <canvas id="chartCanvas" width="640" height="260"></canvas>
+      `;
+      const canvas = document.getElementById("chartCanvas");
+      const ctx = canvas.getContext("2d");
+      const w = canvas.width, h = canvas.height;
+      ctx.fillStyle="#050814";
+      ctx.fillRect(0,0,w,h);
+
+      const metrics = ["Energy","Comfort","Cost","Carbon"];
+      const values = metrics.map(()=> 40+Math.random()*50);
+
+      const left = 60, right = w-20, top = 40, bottom = h-40;
+      const width = right-left;
+      const barW = width/(metrics.length*1.6);
+
+      ctx.strokeStyle="#28345b";
+      ctx.lineWidth=1;
+      for(let i=0;i<=5;i++){
+        const y = bottom - (bottom-top)*i/5;
+        ctx.beginPath();
+        ctx.moveTo(left,y);
+        ctx.lineTo(right,y);
+        ctx.stroke();
+      }
+      metrics.forEach((m,idx)=>{
+        const x = left + (idx+0.5)* (width/metrics.length);
+        const val = values[idx];
+        const barH = (bottom-top)*val/100;
+        ctx.fillStyle="rgba(114,200,255,0.9)";
+        ctx.fillRect(x-barW/2,bottom-barH,barW,barH);
+        ctx.fillStyle="#dde7ff";
+        ctx.font="11px system-ui";
+        ctx.textAlign="center";
+        ctx.fillText(m,x,bottom+14);
+        ctx.fillText(Math.round(val),x,bottom-barH-6);
+      });
+      ctx.textAlign="left";
+      ctx.fillStyle="#f2f5ff";
+      ctx.font="13px system-ui";
+      ctx.fillText(t.name+" — simulated scenario comparison", left, 20);
+    } else if(t.mode === "collab"){
+      demoMain.innerHTML = `
+        <h4>Visual</h4>
+        <span class="step-tag">Live session feed</span>
+        <p>Use this feed to narrate how your team actually works together on complex projects.</p>
+        <div class="visual-panel" id="collabFeed">
+          Click “Simulate activity” to stream example events.
+        </div>
+        <button type="button" id="runCollabFeed">Simulate activity</button>
+      `;
+      document.getElementById("runCollabFeed").onclick = () => {
+        const feed = document.getElementById("collabFeed");
+        const names = ["Maya","Luca","Aria","Client"];
+        const events = [
+          "adjusted glazing ratio on south facade",
+          "added shading fins to terrace",
+          "switched roof to green roof preset",
+          "pinned camera angle for client deck",
+          "left a comment on bedroom wing",
+          "locked version v12 for review"
+        ];
+        let i = 0;
+        feed.innerHTML = "<ul style='margin:0 0 0 16px;padding:0;'></ul>";
+        const ul = feed.querySelector("ul");
+        const id = setInterval(() => {
+          const who = names[Math.floor(Math.random()*names.length)];
+          const ev = events[Math.floor(Math.random()*events.length)];
+          const li = document.createElement("li");
+          li.textContent = `🔵 ${who} ${ev}`;
+          ul.appendChild(li);
+          i++;
+          if(i>=6) {
+            clearInterval(id);
+            const done = document.createElement("div");
+            done.style.marginTop = "8px";
+            done.textContent = "✅ Session synced. All edits would be stored in project history.";
+            feed.appendChild(done);
+          }
+        }, 600);
+      };
+    } else {
+      demoMain.innerHTML = `
+        <h4>Visual</h4>
+        <span class="step-tag">Static preview</span>
+        <div class="visual-panel">
+          Imagine this panel streaming real previews (slides, exports, screenshots, code checks)
+          from the production environment. On sales calls, you can swap in actual screenshots here.
+        </div>
+      `;
+    }
+  }
+
+  function renderExportTab(t){
+    demoMain.innerHTML = `
+      <h4>Export</h4>
+      <span class="step-tag">Hand-off & deliverables</span>
+      <p>Use this tab to walk clients through what they actually receive from ${t.name}.</p>
+      <div class="input-row">
+        <select>
+          <option>Format: PDF deck</option>
+          <option>Format: PNG hero images</option>
+          <option>Format: CSV / JSON summary</option>
+          <option>Format: IFC / BIM helper bundle</option>
+        </select>
+        <select>
+          <option>Audience: Client-facing</option>
+          <option>Audience: Internal team</option>
+          <option>Audience: Municipality</option>
+        </select>
+      </div>
+      <div class="visual-panel">
+        <strong>Export bundle preview</strong><br><br>
+        • 1 × overview page summarizing key decisions<br>
+        • 3–6 × hero visuals for decks and portals<br>
+        • Optional data attachment for downstream tools<br><br>
+        In production, clicking Export would build this bundle on the server.
+        For now, use it as a talking point.
+      </div>
+      <div class="export-row">
+        <div>Simulated export – safe for live demos (no real project data).</div>
+        <a href="#live" onclick="return false;">⬇ Download mock export</a>
+      </div>
+    `;
+  }
+</script>
+</body>
+</html>
