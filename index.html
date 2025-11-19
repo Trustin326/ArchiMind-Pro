@@ -1,0 +1,816 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>ArchiMind Pro — AI that understands design</title>
+  <meta name="description" content="ArchiMind Pro combines AI design, CAD tools and live demos for elite home architects."/>
+  <style>
+    :root{
+      --ink:#0b1220;
+      --muted:#355a82;
+      --royal:#3a6bdc;
+      --light:#5ec8ff;
+      --gold:#f0b429;
+      --bd:#0b12201a;
+      --card:#ffffff;
+      --darkGrad:
+        radial-gradient(1200px 600px at 20% -10%, #2b1b3a55, transparent 60%),
+        radial-gradient(1200px 600px at 90% -10%, #11335966, transparent 60%),
+        linear-gradient(180deg,#121826,#061017);
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+      color:var(--ink);
+      background:#fff;
+      -webkit-font-smoothing:antialiased;
+    }
+    .container{max-width:1200px;margin:0 auto;padding:28px}
+
+    /* HEADER */
+    header{
+      border-bottom:1px solid var(--bd);
+      background:#fff;
+      position:sticky;
+      top:0;
+      z-index:50;
+    }
+    nav{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+    }
+    .logo{font-weight:800;font-size:20px;color:#143b66}
+    .logo b{color:var(--royal)}
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:12px 18px;
+      border-radius:14px;
+      border:1px solid var(--bd);
+      text-decoration:none;
+      font-weight:700;
+      color:#052134;
+      font-size:14px;
+    }
+    .btn.primary{
+      background:linear-gradient(90deg,var(--light),var(--gold));
+      border:none;
+    }
+    .btn.ghost{
+      background:#0b12200d;
+    }
+
+    /* HERO — match your light-blue sample */
+    .hero{
+      padding:46px 0 24px;
+      background:
+        radial-gradient(1000px 500px at 50% -20%, #e6f4ff, transparent 70%),
+        linear-gradient(180deg,#eaf5ff 0%, #ffffff 40%);
+      text-align:center;
+    }
+    .hero h1{
+      font-size:42px;
+      line-height:1.12;
+      margin:0 auto 18px;
+      max-width:20ch;
+      color:#0b2d54;
+    }
+    .hero .sub{
+      color:#325b82;
+      max-width:60ch;
+      margin:0 auto 20px;
+      font-size:17px;
+    }
+    .hero .cta{
+      display:flex;
+      gap:12px;
+      justify-content:center;
+      flex-wrap:wrap;
+      margin-top:12px;
+    }
+    .hero .imgwrap{
+      display:flex;
+      justify-content:center;
+      margin:20px auto 0;
+    }
+    .hero img{
+      width:min(760px,92%);
+      filter:drop-shadow(0 22px 52px #0a2a5a2a);
+    }
+
+    /* TOOLS — dark gradient band + demo buttons like your 3rd screenshot */
+    .dark-section{
+      background:var(--darkGrad);
+      color:#e9f2ff;
+    }
+    .dark-section .container{
+      padding-top:48px;
+      padding-bottom:48px;
+    }
+    .dark-section h2{
+      font-size:32px;
+      margin:0 0 10px;
+    }
+    .dark-section .sub{
+      color:#b8c7dd;
+      margin:0 0 18px;
+    }
+    .tools-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+    }
+    .tool-card{
+      background:rgba(255,255,255,0.04);
+      border:1px solid rgba(255,255,255,0.14);
+      border-radius:18px;
+      padding:18px;
+      display:grid;
+      grid-template-columns:auto 1fr auto;
+      gap:14px;
+      align-items:center;
+      box-shadow:0 16px 40px #00000044 inset;
+    }
+    .tool-icon{
+      width:42px;
+      height:42px;
+      border-radius:10px;
+      display:grid;
+      place-items:center;
+      background:rgba(255,255,255,0.07);
+      border:1px solid rgba(255,255,255,0.18);
+      font-size:20px;
+    }
+    .tool-info h3{
+      margin:0;
+      font-size:16px;
+      color:#ffffff;
+    }
+    .tool-info p{
+      margin:4px 0 0;
+      color:#c7d6ea;
+      font-size:14px;
+    }
+    .tool-demo-btn{
+      border-radius:12px;
+      padding:8px 12px;
+      border:1px solid rgba(255,255,255,.3);
+      color:#bcd8ff;
+      font-size:13px;
+      text-decoration:none;
+      cursor:pointer;
+      background:transparent;
+      white-space:nowrap;
+    }
+    .tool-demo-btn:hover{
+      background:rgba(255,255,255,.12);
+    }
+
+    /* DEMOS SECTION */
+    .section{
+      padding:40px 0;
+    }
+    .section h2{
+      font-size:30px;
+      margin:0 0 12px;
+      color:#0b2d54;
+    }
+    .section .sub{
+      margin:0 0 18px;
+      color:#355a82;
+    }
+
+    .floats{
+      position:relative;
+      margin-top:6px;
+      margin-bottom:16px;
+      height:160px;
+      pointer-events:none;
+    }
+    .float{
+      position:absolute;
+      top:0;
+      animation:float 6s ease-in-out infinite;
+    }
+    .float.f1{left:2%}
+    .float.f2{left:22%;animation-duration:7s}
+    .float.f3{left:44%;animation-duration:5.5s}
+    .float.f4{left:66%;animation-duration:6.5s}
+    .float.f5{left:82%}
+    @keyframes float{
+      0%{transform:translateY(0)}
+      50%{transform:translateY(-12px)}
+      100%{transform:translateY(0)}
+    }
+
+    .demos-layout{
+      display:grid;
+      grid-template-columns:260px minmax(0,1fr);
+      gap:20px;
+      align-items:flex-start;
+      margin-top:10px;
+    }
+
+    /* Left list of demo tools */
+    .demo-list{
+      border-radius:18px;
+      border:1px solid #d1def7;
+      background:#f5f7ff;
+      padding:10px;
+    }
+    .demo-list h3{
+      margin:0 0 6px;
+      font-size:14px;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      color:#37527a;
+    }
+    .demo-list button{
+      width:100%;
+      text-align:left;
+      border:none;
+      background:transparent;
+      padding:8px 10px;
+      border-radius:12px;
+      font-size:14px;
+      color:#264163;
+      cursor:pointer;
+    }
+    .demo-list button.active{
+      background:linear-gradient(90deg,#e3f1ff,#fff);
+      font-weight:600;
+      border:1px solid #b7cff8;
+    }
+
+    /* Right side demo panel */
+    .demo-panel{
+      border-radius:18px;
+      border:1px solid #d1def7;
+      background:#ffffff;
+      padding:18px 18px 20px;
+      box-shadow:0 14px 40px #00103a1e;
+    }
+    .demo-panel h3{
+      margin:0 0 4px;
+      font-size:18px;
+      color:#0b2d54;
+    }
+    .demo-panel p{
+      margin:0 0 10px;
+      color:#48648b;
+      font-size:14px;
+    }
+
+    .form-row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin:8px 0;
+    }
+    input[type="text"], select, textarea{
+      background:#f3f8ff;
+      color:#103454;
+      border:1px solid #cfe0ff;
+      border-radius:12px;
+      padding:10px 12px;
+      font-size:14px;
+      width:100%;
+    }
+    textarea{min-height:90px;resize:vertical;}
+
+    .demo-run{
+      margin-top:6px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+    .demo-run .btn{
+      padding:10px 16px;
+      font-size:13px;
+    }
+
+    .preview, canvas{
+      width:100%;
+      min-height:170px;
+      border:1px dashed #3a6bdc55;
+      border-radius:12px;
+      background:#f3f8ff;
+      display:grid;
+      place-items:center;
+      color:#295079;
+      font-size:13px;
+      margin-top:10px;
+      padding:10px;
+      text-align:left;
+    }
+
+    /* Hide/show demo panes */
+    .demo-pane{display:none;}
+    .demo-pane.active{display:block;}
+
+    @media (max-width:900px){
+      .tools-grid{grid-template-columns:1fr}
+      .demos-layout{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="container">
+    <nav>
+      <div class="logo">🌈 <b>ArchiMind</b> Pro™</div>
+      <div>
+        <a class="btn ghost" href="#demos">Live Demos</a>
+        <a class="btn primary" href="#start">Start Free Trial</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- HERO (like your sample sales page hero) -->
+  <section class="hero">
+    <div class="container">
+      <h1>Reimagine what a home can be — with AI that understands design.</h1>
+      <p class="sub">
+        A next-gen SaaS platform combining AI architecture design, intelligent CAD tools,
+        and real-time visualization — crafted for premium residential architects.
+      </p>
+      <div class="cta">
+        <a class="btn primary" href="#demos">Try Live Demo</a>
+        <a class="btn ghost" href="#tour">Watch Product Tour (2 min)</a>
+      </div>
+      <div class="imgwrap">
+        <!-- 🔁 If your hero file is named differently, update this src -->
+        <img src="assets/img/hero_trio.png" alt="Pixar-style architect team hero"/>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOOLS band (dark gradient, each tool with its own demo button) -->
+  <section class="dark-section" id="tools">
+    <div class="container">
+      <h2>🧠 10+ Built-in AI Architecture &amp; CAD Tools</h2>
+      <p class="sub">Each tool comes with a live, interactive demo — no signup required.</p>
+      <div class="tools-grid" id="toolGrid"></div>
+    </div>
+  </section>
+
+  <!-- LIVE DEMOS (tabbed, multiple working demos) -->
+  <section class="container section" id="demos">
+    <h2>Live Demo Suite</h2>
+    <p class="sub">Tap any tool in the list — or any “Try Demo” button above — to open its full demo.</p>
+
+    <div class="floats" aria-hidden="true">
+      <!-- you can swap these srcs for your floating mascots if already in /assets/img -->
+      <img class="float f1" src="assets/img/floating_1.png" height="160" alt="Architect mascot 1"/>
+      <img class="float f2" src="assets/img/floating_2.png" height="160" alt="Architect mascot 2"/>
+      <img class="float f3" src="assets/img/floating_3.png" height="160" alt="Architect mascot 3"/>
+      <img class="float f4" src="assets/img/floating_4.png" height="160" alt="Architect mascot 4"/>
+      <img class="float f5" src="assets/img/floating_5.png" height="160" alt="Architect mascot 5"/>
+    </div>
+
+    <div class="demos-layout">
+      <!-- LEFT: demo list -->
+      <aside class="demo-list" id="demoList">
+        <h3>Demo tools</h3>
+        <!-- buttons injected via JS -->
+      </aside>
+
+      <!-- RIGHT: demo panel -->
+      <section class="demo-panel">
+        <!-- Individual demo panes -->
+        <!-- 1: Concept Generator (Canvas) -->
+        <div class="demo-pane active" id="demo-concept">
+          <h3>AI Concept Generator</h3>
+          <p>Describe the home you’d like to design — we’ll sketch a concept “blueprint” preview.</p>
+          <div class="form-row">
+            <textarea id="conceptInput"
+              placeholder="e.g. Three-story hillside villa with infinity pool, glass bridge and rooftop garden"></textarea>
+          </div>
+          <div class="demo-run">
+            <button class="btn primary" id="runConcept">Generate Concept Sketch</button>
+          </div>
+          <canvas id="conceptCanvas" height="220"></canvas>
+        </div>
+
+        <!-- 2: Floor Plan Creator -->
+        <div class="demo-pane" id="demo-floorplan">
+          <h3>Smart Floor Plan Creator</h3>
+          <p>Adjust rooms and see how the layout updates in real time.</p>
+          <div class="form-row">
+            <select id="floorPreset">
+              <option value="3bed">Preset: 3-bed / 2-bath</option>
+              <option value="4bed">Preset: 4-bed / 3-bath</option>
+              <option value="loft">Preset: Open loft studio</option>
+            </select>
+            <input type="text" id="floorNotes" placeholder="Extra note: e.g. add home office, move laundry…">
+          </div>
+          <div class="demo-run">
+            <button class="btn primary" id="runFloorPlan">Update Layout</button>
+          </div>
+          <div class="preview" id="floorOut"></div>
+        </div>
+
+        <!-- 3: Material Optimizer -->
+        <div class="demo-pane" id="demo-material">
+          <h3>Material Optimizer</h3>
+          <p>Swap materials based on eco, budget or premium goals.</p>
+          <div class="form-row">
+            <select id="baseMaterial">
+              <option>Concrete</option><option>Brick</option><option>Timber</option><option>Steel</option>
+            </select>
+            <select id="materialGoal">
+              <option value="eco">Eco-friendly</option>
+              <option value="budget">Budget-optimized</option>
+              <option value="premium">Premium finish</option>
+            </select>
+          </div>
+          <div class="demo-run">
+            <button class="btn primary" id="runMaterial">Suggest Materials</button>
+          </div>
+          <div class="preview" id="materialOut">Choose options and click “Suggest Materials”.</div>
+        </div>
+
+        <!-- 4: Elevation Artist -->
+        <div class="demo-pane" id="demo-elevation">
+          <h3>AI Elevation Artist</h3>
+          <p>Pick a style and we’ll storyboard the front elevation in text &amp; diagram.</p>
+          <div class="form-row">
+            <select id="elevStyle">
+              <option>Minimalist glass box</option>
+              <option>Coastal craftsman</option>
+              <option>Modern farmhouse</option>
+              <option>Neo-classic villa</option>
+            </select>
+          </div>
+          <div class="demo-run">
+            <button class="btn primary" id="runElevation">Render Elevation Plan</button>
+          </div>
+          <div class="preview" id="elevOut"></div>
+        </div>
+
+        <!-- 5: Site Analysis -->
+        <div class="demo-pane" id="demo-site">
+          <h3>Site Analysis Assistant</h3>
+          <p>Simulate how the site and sun-path affect your design.</p>
+          <div class="form-row">
+            <input type="text" id="siteLocation" placeholder="Location (city / climate zone)">
+            <select id="sitePriority">
+              <option>Maximize natural light</option>
+              <option>Minimize overheating</option>
+              <option>Balance privacy &amp; views</option>
+            </select>
+          </div>
+          <div class="demo-run">
+            <button class="btn primary" id="runSite">Analyze Site</button>
+          </div>
+          <div class="preview" id="siteOut"></div>
+        </div>
+
+        <!-- 6: Energy Modeler -->
+        <div class="demo-pane" id="demo-energy">
+          <h3>Energy Efficiency Modeler</h3>
+          <p>See a quick energy score based on envelope &amp; glazing choices.</p>
+          <div class="form-row">
+            <select id="energyEnvelope">
+              <option>Standard insulation</option>
+              <option>High-performance envelope</option>
+              <option>Passive-house envelope</option>
+            </select>
+            <select id="energyGlazing">
+              <option>Single glazing</option>
+              <option>Double glazing</option>
+              <option>Triple glazing</option>
+            </select>
+          </div>
+          <div class="demo-run">
+            <button class="btn primary" id="runEnergy">Estimate Score</button>
+          </div>
+          <div class="preview" id="energyOut"></div>
+        </div>
+
+        <!-- 7: Presentation Builder -->
+        <div class="demo-pane" id="demo-presentation">
+          <h3>Client Presentation Builder</h3>
+          <p>Generate a mini slide outline for your next client pitch.</p>
+          <div class="form-row">
+            <input type="text" id="presClient" placeholder="Client name / project nickname">
+            <input type="text" id="presFocus" placeholder="Focus (e.g. sustainability, ROI, lifestyle)">
+          </div>
+          <div class="demo-run">
+            <button class="btn primary" id="runPresentation">Build Deck Outline</button>
+          </div>
+          <div class="preview" id="presOut"></div>
+        </div>
+
+        <!-- 8: Collaborative Cloud -->
+        <div class="demo-pane" id="demo-collab">
+          <h3>Collaborative Design Cloud</h3>
+          <p>Simulate a live multi-user design session with version history.</p>
+          <div class="form-row">
+            <input type="text" id="userA" placeholder="Architect A (e.g., Maya)">
+            <input type="text" id="userB" placeholder="Architect B (e.g., Luca)">
+          </div>
+          <div class="demo-run">
+            <button class="btn primary" id="runCollab">Start Live Session</button>
+          </div>
+          <div class="preview" id="collabFeed">Click “Start Live Session” to see edits stream in…</div>
+        </div>
+      </section>
+    </div>
+  </section>
+</main>
+
+<script>
+  /* ---------- TOOL LIST + DEMO BUTTONS ---------- */
+  const tools = [
+    { id:'concept',      icon:'🎨', name:'AI Concept Generator',        desc:'Generate design concepts from natural language.' },
+    { id:'floorplan',    icon:'📐', name:'Smart Floor Plan Creator',    desc:'Turn sketches & notes into structured layouts.' },
+    { id:'material',     icon:'🧱', name:'Material Optimizer',          desc:'Suggest eco, budget or premium material swaps.' },
+    { id:'elevation',    icon:'🏛️', name:'AI Elevation Artist',        desc:'Storyboard front & rear elevations in seconds.' },
+    { id:'site',         icon:'📍', name:'Site Analysis Assistant',     desc:'Sun-path, views & code hints for any site.' },
+    { id:'energy',       icon:'⚡', name:'Energy Efficiency Modeler',   desc:'Quick envelope + glazing performance scores.' },
+    { id:'presentation', icon:'📊', name:'Client Presentation Builder', desc:'Auto-draft slide outlines for client pitches.' },
+    { id:'collab',       icon:'🤝', name:'Collaborative Design Cloud',  desc:'Simulate multi-user editing with versioning.' },
+    // You can add more here later and map them to existing demo IDs if you like
+  ];
+
+  const toolGrid = document.getElementById('toolGrid');
+  const demoList = document.getElementById('demoList');
+
+  function scrollToDemos() {
+    const demos = document.getElementById('demos');
+    if (!demos) return;
+    demos.scrollIntoView({behavior:'smooth',block:'start'});
+  }
+
+  function activateDemo(id) {
+    // highlight left list
+    document.querySelectorAll('.demo-list button').forEach(btn=>{
+      btn.classList.toggle('active', btn.dataset.demo === id);
+    });
+    // show proper pane
+    document.querySelectorAll('.demo-pane').forEach(p=>{
+      p.classList.toggle('active', p.id === 'demo-' + id);
+    });
+  }
+
+  // Build TOOLS grid
+  tools.forEach(t => {
+    const card = document.createElement('div');
+    card.className = 'tool-card';
+    card.innerHTML = `
+      <div class="tool-icon">${t.icon}</div>
+      <div class="tool-info">
+        <h3>${t.name}</h3>
+        <p>${t.desc}</p>
+      </div>
+      <button class="tool-demo-btn" data-demo="${t.id}">Try Demo</button>
+    `;
+    toolGrid.appendChild(card);
+  });
+
+  // Build DEMO list on the left
+  tools.forEach((t, idx) => {
+    const btn = document.createElement('button');
+    btn.textContent = t.name;
+    btn.dataset.demo = t.id;
+    if (idx === 0) btn.classList.add('active');
+    demoList.appendChild(btn);
+  });
+
+  // Wire all demo triggers
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-demo]');
+    if (!btn) return;
+    const id = btn.dataset.demo;
+    activateDemo(id);
+    scrollToDemos();
+  });
+
+  /* ---------- DEMO 1: Concept Generator (Canvas) ---------- */
+  const conceptCanvas = document.getElementById('conceptCanvas');
+  const cctx = conceptCanvas.getContext('2d');
+
+  function drawConcept(text) {
+    const w = conceptCanvas.width;
+    const h = conceptCanvas.height;
+    cctx.clearRect(0,0,w,h);
+    const g = cctx.createLinearGradient(0,0,w,h);
+    g.addColorStop(0,'#eaf4ff');
+    g.addColorStop(1,'#ffffff');
+    cctx.fillStyle = g;
+    cctx.fillRect(0,0,w,h);
+
+    // simple "mass diagram" / volumes
+    for (let i=0;i<6;i++){
+      const x = 20 + i*35 + Math.random()*6;
+      const bw = 26 + Math.random()*18;
+      const bh = 110 + Math.random()*80;
+      cctx.fillStyle = `rgba(62,107,220,${0.18+Math.random()*0.3})`;
+      cctx.fillRect(x, h-bh, bw, bh);
+      cctx.strokeStyle = 'rgba(240,180,41,.55)';
+      cctx.strokeRect(x, h-bh, bw, bh);
+    }
+
+    cctx.fillStyle = '#1c3f66';
+    cctx.font = '14px ui-sans-serif';
+    const lines = [
+      'AI Concept Preview',
+      text ? '• ' + text.slice(0,70) : '• Sample: Modern 3-bedroom hillside villa',
+      '• Layers = public / private / service',
+    ];
+    lines.forEach((ln,i)=>cctx.fillText(ln,16,24 + i*18));
+  }
+  drawConcept('');
+
+  document.getElementById('runConcept').addEventListener('click', () => {
+    const txt = document.getElementById('conceptInput').value.trim();
+    drawConcept(txt);
+  });
+
+  /* ---------- DEMO 2: Floor Plan ---------- */
+  document.getElementById('runFloorPlan').addEventListener('click', () => {
+    const preset = document.getElementById('floorPreset').value;
+    const notes = document.getElementById('floorNotes').value.trim();
+    const out = document.getElementById('floorOut');
+
+    const descriptions = {
+      '3bed':'Central living spine with 3 bedrooms on the quiet side and open kitchen / dining facing the view.',
+      '4bed':'Four-bed layout with guest suite on the main level and family zone upstairs.',
+      'loft':'Open loft floor plate with flexible partitions and gallery railing to the double-height living area.'
+    };
+    const desc = preset === '4bed' ? descriptions['4bed'] :
+                 preset === 'loft' ? descriptions['loft'] :
+                 descriptions['3bed'];
+
+    out.innerHTML = `
+      <strong>Layout summary</strong><br>
+      ${desc}<br><br>
+      <strong>AI notes</strong><br>
+      ${notes ? notes : 'No extra notes — using the base preset as is.'}
+    `;
+  });
+
+  /* ---------- DEMO 3: Material Optimizer ---------- */
+  const materialData = {
+    Concrete:{
+      eco:['Limecrete','Hempcrete'],
+      budget:['Cinder block','Fiber-cement board'],
+      premium:['Polished concrete','UHPC panels']
+    },
+    Brick:{
+      eco:['Reclaimed brick','Compressed earth blocks'],
+      budget:['Hollow brick','Thin brick veneer'],
+      premium:['Handmade brick','Glazed face brick']
+    },
+    Timber:{
+      eco:['CLT','Bamboo composite'],
+      budget:['Engineered lumber','Softwood frame'],
+      premium:['Thermally modified wood','Hardwood rainscreen']
+    },
+    Steel:{
+      eco:['Recycled steel','Weathering steel'],
+      budget:['Light-gauge steel studs','Hybrid steel frame'],
+      premium:['Architectural steel','Stainless steel accents']
+    }
+  };
+
+  function randScore(){return 60 + Math.floor(Math.random()*40);}
+
+  document.getElementById('runMaterial').addEventListener('click', () => {
+    const base = document.getElementById('baseMaterial').value;
+    const goal = document.getElementById('materialGoal').value;
+    const out  = document.getElementById('materialOut');
+    const picks = materialData[base][goal] || [];
+    const eco = randScore();
+    const budget = randScore();
+
+    out.innerHTML = `
+      <div style="padding:4px 0 8px;">
+        Base: <b>${base}</b> → Goal: <b>${goal}</b>
+      </div>
+      <ul style="margin:4px 0 8px 18px;">
+        ${picks.map(p => `<li>${p}</li>`).join('')}
+      </ul>
+      <div>Eco score: <b>${eco}</b>/100 &nbsp; • &nbsp; Budget score: <b>${budget}</b>/100</div>
+    `;
+  });
+
+  /* ---------- DEMO 4: Elevation ---------- */
+  document.getElementById('runElevation').addEventListener('click', () => {
+    const style = document.getElementById('elevStyle').value;
+    const out   = document.getElementById('elevOut');
+
+    const notes = {
+      'Minimalist glass box':
+        'Clean horizontals, flush glazing, slim black frames and a floating upper volume over a recessed base.',
+      'Coastal craftsman':
+        'Deep porch, tapered columns, shingle cladding and warm white trim around grouped windows.',
+      'Modern farmhouse':
+        'Gabled rooflines, vertical board-and-batten cladding and a contrasting metal roof.',
+      'Neo-classic villa':
+        'Symmetrical facade, tall arched windows, stone base and an emphasized central entry.'
+    };
+
+    out.innerHTML = `
+      <strong>Style:</strong> ${style}<br><br>
+      <strong>Elevation strategy</strong><br>
+      ${notes[style] || ''}<br><br>
+      <strong>AI hint:</strong> Use a warm, low-sun angle with soft shadows to emphasize depth and texture.
+    `;
+  });
+
+  /* ---------- DEMO 5: Site Analysis ---------- */
+  document.getElementById('runSite').addEventListener('click', () => {
+    const loc   = document.getElementById('siteLocation').value.trim() || 'Unknown climate';
+    const prio  = document.getElementById('sitePriority').value;
+    const out   = document.getElementById('siteOut');
+
+    out.innerHTML = `
+      <strong>Site:</strong> ${loc}<br>
+      <strong>Priority:</strong> ${prio}<br><br>
+      • Orient main glazing within 15° of south for balanced daylight.<br>
+      • Add deeper overhangs on west / south-west to tame afternoon gain.<br>
+      • Cluster services and circulation on the least scenic side to protect views.
+    `;
+  });
+
+  /* ---------- DEMO 6: Energy Modeler ---------- */
+  document.getElementById('runEnergy').addEventListener('click', () => {
+    const env = document.getElementById('energyEnvelope').value;
+    const glz = document.getElementById('energyGlazing').value;
+    const out = document.getElementById('energyOut');
+
+    let base = 55;
+    if (env === 'High-performance envelope') base += 15;
+    if (env === 'Passive-house envelope')   base += 25;
+    if (glz === 'Double glazing') base += 8;
+    if (glz === 'Triple glazing') base += 14;
+    if (base > 98) base = 98;
+
+    out.innerHTML = `
+      <strong>Envelope:</strong> ${env}<br>
+      <strong>Glazing:</strong> ${glz}<br><br>
+      <strong>Estimated efficiency score:</strong> <span style="font-size:18px;">${base}/100</span><br>
+      <small>AI hint: combine airtight envelope + triple glazing and external shading for best performance.</small>
+    `;
+  });
+
+  /* ---------- DEMO 7: Presentation Builder ---------- */
+  document.getElementById('runPresentation').addEventListener('click', () => {
+    const client = (document.getElementById('presClient').value || 'Client').trim();
+    const focus  = (document.getElementById('presFocus').value || 'design vision').trim();
+    const out    = document.getElementById('presOut');
+
+    out.innerHTML = `
+      <strong>Deck outline for ${client}</strong><br><br>
+      1. Project Vision &amp; Context<br>
+      2. Site &amp; Constraints Overview<br>
+      3. Core Concept — ${focus}<br>
+      4. Plan &amp; Elevation Highlights<br>
+      5. Sustainability &amp; Energy Story<br>
+      6. Phasing, Budget &amp; Next Steps
+    `;
+  });
+
+  /* ---------- DEMO 8: Collaborative Cloud ---------- */
+  document.getElementById('runCollab').addEventListener('click', () => {
+    const A = (document.getElementById('userA').value || 'Maya').trim();
+    const B = (document.getElementById('userB').value || 'Luca').trim();
+    const feed = document.getElementById('collabFeed');
+
+    const steps = [
+      `${A} added: living room skylight +0.5m`,
+      `${B} adjusted: south facade shading fins`,
+      `${A} note: move kitchen to west to capture sunset`,
+      `${B} pushed render: golden-hour elevation`,
+      `${A} approved changes • New version: v12`
+    ];
+
+    feed.innerHTML = 'Connecting to live session…';
+    let i = 0;
+    const id = setInterval(() => {
+      feed.innerHTML = `
+        <ul style="margin:4px 0 0 18px;">
+          ${steps.slice(0,i+1).map(s=>`<li>🔵 ${s}</li>`).join('')}
+        </ul>
+      `;
+      i++;
+      if (i >= steps.length){
+        clearInterval(id);
+        feed.innerHTML += '<div style="margin-top:6px;">✅ Session synced. All edits saved to version control.</div>';
+      }
+    }, 700);
+  });
+</script>
+</body>
+</html>
